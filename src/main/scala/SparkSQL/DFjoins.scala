@@ -69,6 +69,11 @@ object DFjoins {
     orderItems.sort(col("order_item_product_id").desc).show()
     orderItems.sort(col("order_item_product_id").desc).show()
     orderItems.sort(col("order_item_order_id"), col("order_item_subtotal").desc).show()
+
+    /*******************Analytical Functions and windowing functions***************/
+
+
+
   }
 
 }

@@ -4,6 +4,8 @@ import org.apache.spark.SparkConf
 import org.apache.spark.sql.types.{FloatType, IntegerType, StructField, StructType}
 import org.apache.spark.sql._
 
+//import org.apache.spark.sql.functions._
+
 /**
   * Created by ImranKhan on 27-07-2019.
   */
@@ -12,9 +14,9 @@ object orderItemsDF {
     val conf = new SparkConf()
     val spark = SparkSession.builder().master("local").config(conf = conf).appName("DSLoperation2").getOrCreate()
     val sc = spark.sparkContext
-    sc.setLogLevel("ERROR")
+    //sc.setLogLevel("ERROR")
     val orders = sc.textFile("D:\\Spark\\data-master\\data-master\\retail_db\\order_items\\part-00000")
-    orders.take(2).foreach(println)
+    //orders.take(2).foreach(println)
     /*1,2013-07-25 00:00:00.0,11599,CLOSED
     2,2013-07-25 00:00:00.0,256,PENDING_PAYMENT*/
     val orderItemsRDD = orders.map(e => {
