@@ -30,7 +30,7 @@ object DFjoins {
       val w = e.split(",")
       Row(w(0).toInt, w(1), w(2).toInt, w(3))
     })
-import spark.implicits._
+    import spark.implicits._
     val ordersDF = spark.createDataFrame(ordersRDD, orderschema)
     // ordersDF.show(10)
     val orders = sc.textFile("D:\\Spark\\data-master\\data-master\\retail_db\\order_items\\part-00000")
@@ -51,12 +51,24 @@ import spark.implicits._
         StructField("order_item_product_price", FloatType, false)
       )
     )
-    //import spark.implicits._
+    // import spark.implicits._
     val orderItems = spark.createDataFrame(orderItemsRDD, schema)
     //orderItems.show()
 
-    ordersDF.join(orderItems, $"order_id"===$"order_item_order_id").show()
-    ordersDF.join(orderItems, $"order_id"===$"order_item_order_id", "left").where($"order_item_order_id".isNull).show()
+    //ordersDF.join(orderItems, $"order_id"===$"order_item_order_id").show()
+    //ordersDF.join(orderItems, $"order_id"===$"order_item_order_id", "left").where($"order_item_order_id".isNull).show()
+    orderItems.select(sum("order_item_subtotal")).show()
+    orderItems.groupBy("order_item_order_id").count().show()
+    //orderItems.groupBy($"order_item_order_id").count().show()
+    orderItems.groupBy("order_item_order_id").sum("order_item_subtotal").show()
+    orderItems.groupBy("order_item_order_id").agg(sum("order_item_subtotal").alias("order_revenue")).show()
+    orderItems.groupBy("order_item_order_id").agg(sum("order_item_subtotal").alias("order_revenue"), count(lit(1).alias("order_count"))).show()
+    orderItems.groupBy("order_item_order_id").agg(sum("order_item_subtotal").alias("order_revenue"), count(lit(1).alias("order_count")), sum("order_item_product_id").alias("product_quantity"))
+
+    orderItems.sort("order_item_product_id").show()
+    orderItems.sort(col("order_item_product_id").desc).show()
+    orderItems.sort(col("order_item_product_id").desc).show()
+    orderItems.sort(col("order_item_order_id"), col("order_item_subtotal").desc).show()
   }
 
 }
