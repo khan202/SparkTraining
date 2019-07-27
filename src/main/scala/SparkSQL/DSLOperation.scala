@@ -75,8 +75,7 @@ object DSLOperation {
     ordersDF.where("order_status IN ('COMPLETE','CLOSED') AND order_date LIKE '2014-08%'").show()
     ordersDF.where(col("order_status") === "COMPLETE" || col("order_status") === "CLOSED").show()
     ordersDF.where(col("order_status").isin("COMPLETE", "CLOSED") && (col("order_date").like("2013-08%"))).show()
-
-
+    ordersDF.groupBy($"order_id")
 
 
   }
