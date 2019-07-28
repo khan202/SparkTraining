@@ -14,7 +14,7 @@ object analyticalAndWindowingFunctions {
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
     val employeeData = sc.textFile("D:\\Spark\\data-master\\data-master\\hr_db\\employees\\part-00000.csv")
-   // employeeData.take(10).foreach(println)
+    // employeeData.take(10).foreach(println)
     /* // 100	Steven	King	SKING	515.123.4567	1987-06-17	AD_PRES	24000.00	null	null	90
       // 100	Steven	King	SKING	515.123.4567	1987-06-17	AD_PRES	24000.00	null	null	90
       101	Neena	Kochhar	NKOCHHAR	515.123.4568	1989-09-21	AD_VP	17000.00	null	100	90
@@ -36,18 +36,18 @@ object analyticalAndWindowingFunctions {
     employee.select($"*", sum("salary").over(Window.partitionBy("department_id")).alias("department_expence")).show()
     //employee.select($"department_id", sum("salary").over(Window.partitionBy("department_id")).alias("department_expence")).groupBy("department_id").count().show()
     val spec = Window.partitionBy("department_id")
-   // employee.select($"employee_id", $"department_id", $"salary", sum("salary").over(spec).alias("department_expence")).show()
+    // employee.select($"employee_id", $"department_id", $"salary", sum("salary").over(spec).alias("department_expence")).show()
     print("Average salary")
     //employee.select($"employee_id", $"department_id", $"salary", avg("salary").over(spec).alias("department_expence")).show()
     print("Max salary")
     println()
-   // employee.select($"employee_id", $"department_id", $"salary", max("salary").over(spec).alias("department_expence")).show()
+    // employee.select($"employee_id", $"department_id", $"salary", max("salary").over(spec).alias("department_expence")).show()
     print("Min salary")
     println()
     //employee.select($"employee_id", $"department_id", $"salary", min("salary").over(spec).alias("department_expence")).show()
     val spec1 = Window.partitionBy("department_id").orderBy($"salary".desc)
     val rnk = rank().over(spec1)
-    val empRank = employee.select($"employee_id", $"department_id", $"salary", rnk.alias("EmpRank"))//.show()
+    val empRank = employee.select($"employee_id", $"department_id", $"salary", rnk.alias("EmpRank")) //.show()
 
     val spec2 = Window.partitionBy("department_id").orderBy(col("salary").desc)
     val denseRnk = dense_rank().over(spec1)
@@ -57,7 +57,15 @@ object analyticalAndWindowingFunctions {
     //val sal_rnk = rank().over(spec1)
 
     empRank.where("empRank<=3").show()
-    empRank.select($"employee_id",$"empRank").where("empRank<=3").show()
+    empRank.select("employee_id", "empRank").where("empRank<=3").show()
+
+    val spec3 = Window.partitionBy("department_id").orderBy($"salary".desc)
+    val lead1 = lead("salary", 1).over(spec3).alias("Next_salary")
+    //lead ( column name, offset = to the next value => exact next value or skip any values in between)
+    val empLead = employee.select($"employee_id", $"department_id", $"salary", lead1).show()
+
+    val lag1 = lag("salary", 1).over(spec3).alias("previos_salary")
+    val empLag = employee.select($"employee_id", $"department_id", $"salary", lag1).show()
 
 
   }
