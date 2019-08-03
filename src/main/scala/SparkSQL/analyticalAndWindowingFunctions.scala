@@ -10,7 +10,7 @@ import org.apache.spark.sql.functions._
 object analyticalAndWindowingFunctions {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf()
-    val spark = SparkSession.builder().master("local").config(conf = conf).appName("DSLoperation2").getOrCreate()
+    val spark = SparkSession.builder().master("local").config(conf = conf).appName("analyticalAndWindowingFunctions").getOrCreate()
     val sc = spark.sparkContext
     sc.setLogLevel("ERROR")
     val employeeData = sc.textFile("D:\\Spark\\data-master\\data-master\\hr_db\\employees\\part-00000.csv")
