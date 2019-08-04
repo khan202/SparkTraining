@@ -25,11 +25,12 @@ object dftoDS {
     val ordersDF = orders.map(e => {
       val a = e.split(",")
       order(a(0).toInt, a(1), a(2).toInt, a(3))
-    }).toDF()
+    }).toDS()
 
     ordersDF.show()
-    val ordersDS = ordersDF.as[order]
-    ordersDS.show()
+   val ordersDS = ordersDF.as[order]
+    //ordersDS.show()
+
     ordersDS.filter(e => e.order_status == "CLOSED").show()
   }
 
