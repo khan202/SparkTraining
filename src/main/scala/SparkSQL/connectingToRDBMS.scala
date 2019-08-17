@@ -22,8 +22,8 @@ object connectingToRDBMS {
     //spark.read.jdbc(connection url, tableName, username and password)
     df.show()
 
-    df.write.mode(SaveMode.Append).jdbc(url, "customers1", prop)
-   // df.write.mode(SaveMode.Overwrite).jdbc(url,"employee1", prop)
+    //df.write.mode(SaveMode.Append).jdbc(url, "customers1", prop)
+    df.write.mode(SaveMode.Overwrite).jdbc(url, "customers1", prop)
   }
 
 }
