@@ -1,6 +1,7 @@
 package SparkSQL
 
 import org.apache.spark.SparkConf
+import org.apache.spark.sql._
 import org.apache.spark.sql.{types, _}
 import org.apache.spark.sql.types.{FloatType, IntegerType, StructField, StructType}
 //import org.apache.spark.sql.types._
@@ -13,6 +14,9 @@ object CreatingDFusingSFST {
     val conf = new SparkConf()
     val spark = SparkSession.builder().master("local").config(conf = conf).appName("CreatingDFusingSFST").getOrCreate()
     val sc = spark.sparkContext
+    //val hc = spark.hiveContext
+
+
     sc.setLogLevel("ERROR")
     val orders = sc.textFile("G:\\Spark\\data-master\\retail_db\\order_items\\part-00000")
     /* orders.take(10).foreach(println)
