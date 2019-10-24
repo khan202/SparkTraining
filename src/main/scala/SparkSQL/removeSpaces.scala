@@ -24,6 +24,24 @@ object removeSpaces {
 
     }
     actualdf.show()
+    
+    //************OUT PUT**************//
+   /* +-------------+-----------+
+|         name|    country|
++-------------+-----------+
+|  p a   b l o|   Paraguay|
+|       Neymar|B r    asil|
++-------------+-----------+
+
++------+--------+
+|  name| country|
++------+--------+
+| pablo|Paraguay|
+|Neymar|  Brasil|
++------+--------+*/
+
+
+
 //***********************remove spaces in the between the column names and change to lowercase*********************//
     val sourceDF = Seq(
       ("funny", "joke")
@@ -41,7 +59,19 @@ object removeSpaces {
       }
 
     actualDF.show()
+    //******************Output result*************************//
+/*    +-----+----+
+|A b C|de F|
++-----+----+
+|funny|joke|
++-----+----+
 
++-----+----+
+|a_b_c|de_f|
++-----+----+
+|funny|joke|
++-----+----+
+*/
 
 
   }
