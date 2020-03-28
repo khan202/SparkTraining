@@ -11,13 +11,18 @@ object broadCastVariables {
     val conf = new SparkConf()
     val spark = SparkSession.builder().master("local").config(conf = conf).appName("broadCastVariables").getOrCreate()
     val sc = spark.sparkContext
+    sc.setLogLevel("ERROR")
 
     val data = "this is spark programmoing and we can write spark in scala".split(" ")
     val lkp = Map("spark" -> 1, "hadoop" -> 2)
     val rdd1 = sc.parallelize(data)
     val bc = sc.broadcast(lkp)
     val res = rdd1.map(x => bc.value.getOrElse(x, 0))
-    res.collect.foreach(print)
+    res.collect.foreach(println)
+
+
+
+
 
 
   }
