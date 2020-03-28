@@ -24,7 +24,7 @@ object DSLOperation {
     })
     val schema = StructType(fields)
 
-    val orders = sc.textFile("D:\\Spark\\data-master\\data-master\\retail_db\\orders\\part-00000")
+    val orders = sc.textFile("D:\\BigData\\data-master\\retail_db\\orders\\part-00000")
     orders.take(2).foreach(println)
 
     val ordersRDD = orders.map(e => {
@@ -42,7 +42,7 @@ object DSLOperation {
     import spark.implicits._
     val dual = Seq("X").toDF("dummy") //.show()
     dual.select($"dummy").show()
-    /*dual.select(lit("Hello World")).show()
+    dual.select(lit("Hello World")).show()
     dual.select(lit("Hello World").alias("dummy")).show()
     dual.select(length(lit("Hello World")).alias("dummy")).show()
     dual.select(lower(lit("Hello World")).alias("dummy")).show()
@@ -70,7 +70,7 @@ object DSLOperation {
 
     //ordersDF.select($"order_date,date_format"($"order_date","YYYYMMdd").cast(IntegerType).alias("order_date"),$"order_customer_id",$"order_status").show()//.printSchema()
 
-    ordersDF.where("order_status='COMPLETE' or order_status = 'CLOSED'").show()*/
+    ordersDF.where("order_status='COMPLETE' or order_status = 'CLOSED'").show()
     ordersDF.where("order_status IN ('COMPLETE','CLOSED')").show()
     ordersDF.where("order_status IN ('COMPLETE','CLOSED') AND order_date LIKE '2014-08%'").show()
     ordersDF.where(col("order_status") === "COMPLETE" || col("order_status") === "CLOSED").show()

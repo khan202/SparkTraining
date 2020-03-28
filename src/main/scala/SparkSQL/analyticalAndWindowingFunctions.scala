@@ -33,6 +33,9 @@ object analyticalAndWindowingFunctions {
       "manager_id", "department_id")
 
     import org.apache.spark.sql.expressions._
+
+    employee.head(5)
+
     employee.select($"*", sum("salary").over(Window.partitionBy("department_id")).alias("department_expence")).show()
     //employee.select($"department_id", sum("salary").over(Window.partitionBy("department_id")).alias("department_expence")).groupBy("department_id").count().show()
     val spec = Window.partitionBy("department_id")
@@ -71,3 +74,4 @@ object analyticalAndWindowingFunctions {
   }
 
 }
+

@@ -7,7 +7,7 @@ import org.apache.spark.sql.functions._
 
 /**
   * Created by ImranKhan on 27-07-2019.
-  */
+  **/
 object DFjoins {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf()
@@ -23,7 +23,7 @@ object DFjoins {
     })
     val orderschema = StructType(fields)
 
-    val orderdata = sc.textFile("D:\\Spark\\data-master\\data-master\\retail_db\\orders\\part-00000")
+    val orderdata = sc.textFile("D:\\BigData\\data-master\\retail_db\\orders\\part-00000")
     orderdata.take(2).foreach(println)
 
     val ordersRDD = orderdata.map(e => {
@@ -33,7 +33,7 @@ object DFjoins {
     import spark.implicits._
     val ordersDF = spark.createDataFrame(ordersRDD, orderschema)
     // ordersDF.show(10)
-    val orders = sc.textFile("D:\\Spark\\data-master\\data-master\\retail_db\\order_items\\part-00000")
+    val orders = sc.textFile("D:\\BigData\\data-master\\retail_db\\order_items\\part-00000")
     orders.take(2).foreach(println)
     /*1,2013-07-25 00:00:00.0,11599,CLOSED
     2,2013-07-25 00:00:00.0,256,PENDING_PAYMENT*/
@@ -57,8 +57,8 @@ object DFjoins {
 
     //ordersDF.join(orderItems, $"order_id"===$"order_item_order_id").show()
     //ordersDF.join(orderItems, $"order_id"===$"order_item_order_id", "left").where($"order_item_order_id".isNull).show()
-    orderItems.select(sum("order_item_subtotal")).show()
-    orderItems.groupBy("order_item_order_id").count().show()
+    //orderItems.select(sum("order_item_subtotal")).show()
+    /*orderItems.groupBy("order_item_order_id").count().show()
     //orderItems.groupBy($"order_item_order_id").count().show()
     orderItems.groupBy("order_item_order_id").sum("order_item_subtotal").show()
     orderItems.groupBy("order_item_order_id").agg(sum("order_item_subtotal").alias("order_revenue")).show()
@@ -68,7 +68,9 @@ object DFjoins {
     orderItems.sort("order_item_product_id").show()
     orderItems.sort(col("order_item_product_id").desc).show()
     orderItems.sort(col("order_item_product_id").desc).show()
-    orderItems.sort(col("order_item_order_id"), col("order_item_subtotal").desc).show()
+    orderItems.sort(col("order_item_order_id"), col("order_item_subtotal").desc).show()*/
+    orderItems.agg(countDistinct("order_item_order_id")).show()
+    
 
     /*******************Analytical Functions and windowing functions***************/
 
